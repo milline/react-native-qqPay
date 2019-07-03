@@ -1,14 +1,10 @@
 # react-native 接QQ钱包支付的SDK #
 
----
-
 >#### 目前没有npm安装，需要自行引入第三方sdk####
 
 >#### 因业务需求需要接QQ钱包支付，网上也没有相应的教程、步骤。只好自己摸索，在这里写下我的解决方案给需要用到的人，更快的接好QQ钱包支付，也给自己记下笔记（目前接触react-native才1个月多不是很深入了解其原理，只停留在实现业务功能的层面，解决方案不是很到位） ####
 
 ## 步骤 ##
-
----
 
 ## android
 
@@ -80,7 +76,7 @@ android {
       <data android:scheme="qwallet111111111"/>
     </intent-filter>
   </activity>
-  <!-- end -->
+<!-- end -->
 ```
 
 > MainApplication.java
@@ -92,12 +88,12 @@ import cn.test.book.qqwallet.QqWalletPackage;(test改成你的包名)
 ```
 
 ```java
-  protected List<ReactPackage> getPackages() {
-    return Arrays.<ReactPackage>asList(
-      // + QqWalletPackage
-      new QqWalletPackage()
-    );
-  }
+protected List<ReactPackage> getPackages() {
+  return Arrays.<ReactPackage>asList(
+    // + QqWalletPackage
+    new QqWalletPackage()
+  );
+}
 ```
 
 5.创建 qqwallet.js (放在src目录下 自己找位置放,复制即可)
@@ -125,6 +121,7 @@ onBtnIsMqqSupportPay().then((isSupportPay) => {
  * @param {String} data.sig
  * @returns {Promise}
  */
+
 qqPay(data) // 调起第三方支付方法 参数详情见QQ商户开发文档
 
 // 返回值是个json
@@ -141,7 +138,7 @@ qqPay(data) // 调起第三方支付方法 参数详情见QQ商户开发文档
  * totalFee
  */
 
-// 使用例子
+// 使用方法
 qqPay({
   tokenId: '',
   bargainorId: '',
