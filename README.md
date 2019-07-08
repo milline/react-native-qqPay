@@ -13,9 +13,7 @@
 2.在android>app>src>main>java>cn>你的包名>book下创建qqwallet文件夹（名字可以自己取）里面分别放三个文件（拷贝即可）
 
 >#### CallbackActivity.java （处理支付回调）
-
 >#### QqWalletModule.java （编写react-native可以使用的方法）
-
 >#### QqWalletPackage.java （连接android跟react-native）
 
 3.需要修改的内容
