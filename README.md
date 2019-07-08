@@ -4,11 +4,11 @@
 
 >#### 因业务需求需要接QQ钱包支付，网上也没有相应的教程、步骤。只好自己摸索，在这里写下我的解决方案给需要用到的人，更快的接好QQ钱包支付，也给自己记下笔记（目前接触react-native才1个月多不是很深入了解其原理，只停留在实现业务功能的层面，解决方案不是很到位） ####
 
-## 步骤 ##
+## 配置步骤 ##
 
-## android
+## android(ios 要走内购流程IAP)
 
-1.去[QQ钱包商户平台](https://qpay.qq.com/buss/wiki/38/1195)下载需要的[SDK](https://i.gtimg.cn/channel/imglib/201806/upload_e17215817f1aef539c6f0185f14e62b2.zip) 把下载好的 mqqopenpay.jar 放在 android>app>libs 目录下
+1.去[QQ钱包商户平台](https://qpay.qq.com/buss/wiki/38/1195)下载需要的[SDK](https://i.gtimg.cn/channel/imglib/201806/upload_e17215817f1aef539c6f0185f14e62b2.zip)把下载好的 mqqopenpay.jar 放在 android>app>libs 目录下
 
 2.在android>app>src>main>java>cn>你的包名>book下创建qqwallet文件夹（名字可以自己取）里面分别放三个文件（拷贝即可）
 
@@ -131,17 +131,15 @@ qqPay(data) // 调起第三方支付方法 参数详情见QQ商户开发文档
  * isSucess
  * retCode
  * retMsg
- * 以下参数成功才会返回
- * transactionId
- * payTime
- * callbackUrl
- * totalFee
  */
 
 // 使用方法
 qqPay({
+  appId: '',
   tokenId: '',
   bargainorId: '',
+  nonce: '',
+  pubAcc: '',
   sig: '',
 }).then(data => {
   if (data !== null && data !== 'notPayResponse') {

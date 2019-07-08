@@ -42,9 +42,7 @@ export const onBtnIsMqqSupportPay = Platform.OS !== 'ios' ? wrapApi(QqWallet.onB
  */
 export function qqPay(data) {
   if (Platform.OS === 'ios') {
-    return new Promise((resolve, reject) => {
-      resolve('ios的方法')
-    });
+    return
   }
   function correct(actual, fixed) {
     if (!data[fixed] && data[actual]) {
@@ -53,8 +51,9 @@ export function qqPay(data) {
     }
   }
 
+  correct('appid', 'appId');
   correct('tokenid', 'tokenId');
   correct('bargainorid', 'bargainorId');
-
+  correct('pubacc', 'pubAcc');
   return QqWallet.onBtnMqqPay(data);
 }

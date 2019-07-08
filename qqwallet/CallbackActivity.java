@@ -14,57 +14,55 @@ import com.facebook.react.bridge.ReadableMap;
 
 public class CallbackActivity extends Activity implements IOpenApiListener {
 
-    IOpenApi openApi;
+  IOpenApi openApi;
 
-    // 处理支付回调
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        openApi = OpenApiFactory.getInstance(this, QqWalletModule.APP_ID);
-        openApi.handleIntent(getIntent(), this);
+  // 处理支付回调
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    openApi = OpenApiFactory.getInstance(this, QqWalletModule.APP_ID);
+    openApi.handleIntent(getIntent(), this);
+  }
+
+  // 处理支付回调
+  @Override
+  protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
+    openApi.handleIntent(intent, this);
+  }
+
+  // 返回支付结果
+  @Override
+  public void onOpenResponse(BaseResponse response) {
+    String message;
+
+    if (response == null) {
+      message = null;
+      return;
+    } else {
+      if (response instanceof PayResponse) {
+        PayResponse payResponse = (PayResponse) response;
+        message = "{\"apiName\":\"" + payResponse.apiName + "\","
+                + "\"serialnumber\":\"" + payResponse.serialNumber + "\","
+                + "\"isSucess\":" + payResponse.isSuccess() + ","
+                + "\"retCode\":" + payResponse.retCode + ","
+                + "\"retMsg\":\"" + payResponse.retMsg + "\"";
+        // if (payResponse.isSuccess()) {
+        //     if (!payResponse.isPayByWeChat()) {
+        //         message += ",\"transactionId:\"" + payResponse.transactionId + "\","
+        //                 + "\"payTime:\"" + payResponse.payTime + "\","
+        //                 + "\"callbackUrl:\"" + payResponse.callbackUrl + "\","
+        //                 + "\"totalFee:\"" + payResponse.totalFee + "\"";
+        //     }
+        // }
+        message += "}";
+      } else {
+        message = "notPayResponse";
+      }
     }
-
-    // 处理支付回调
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-        openApi.handleIntent(intent, this);
-    }
-
-    // 返回支付结果
-    @Override
-    public void onOpenResponse(BaseResponse response) {
-        String message;
-
-        if (response == null) {
-            message = null;
-            return;
-        } else {
-            if (response instanceof PayResponse) {
-                PayResponse payResponse = (PayResponse) response;
-                message = "{\"apiName\":\"" + payResponse.apiName + "\","
-                        + "\"serialnumber\":\"" + payResponse.serialNumber + "\","
-                        + "\"isSucess\":" + payResponse.isSuccess() + ","
-                        + "\"retCode\":" + payResponse.retCode + ","
-                        + "\"retMsg\":\"" + payResponse.retMsg + "\"";
-                if (payResponse.isSuccess()) {
-                    if (!payResponse.isPayByWeChat()) {
-                        message += "\"transactionId:" + payResponse.transactionId + ","
-                                + "\"payTime:\"" + payResponse.payTime + "\","
-                                + "\"callbackUrl:\"" + payResponse.callbackUrl + "\","
-                                + "\"totalFee:\"" + payResponse.totalFee + "\"";
-                    }
-
-                } else {
-                    message += "}";
-                }
-            } else {
-                message = "notPayResponse";
-            }
-        }
-        QqWalletModule.promise.resolve(message);
-        finish();
-    }
+    QqWalletModule.promise.resolve(message);
+    finish();
+  }
 
 }
