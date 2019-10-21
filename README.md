@@ -120,7 +120,7 @@ onBtnIsMqqSupportPay().then((isSupportPay) => {
  * @returns {Promise}
  */
 
-qqPay(data) // 调起第三方支付方法 参数详情见QQ商户开发文档
+qqPay(data) // 调起第三方支付方法 参数详情见QQ商户开发文档.
 
 // 返回值是个json
 /** 包含如下字段
